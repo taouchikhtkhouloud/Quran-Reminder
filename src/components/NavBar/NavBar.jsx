@@ -1,26 +1,47 @@
-import { Container } from "react-bootstrap";
-import style from "./NavBar.module.css";
+import React from "react";
+import { Container, Navbar, Nav } from "react-bootstrap";
 import { BiSolidFoodMenu } from "react-icons/bi";
 import { Tooltip } from "react-tooltip";
 import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
   return (
-    <div className={style.NavBar}>
-      <Container className="d-flex justify-content-between align-items-center">
-        <div className={style.img}>
-          <img src="/quranImg.png" alt="img" />
-        </div>
-        <div className={style.menu} id="clickable">
-          <NavLink to="/">
-          <BiSolidFoodMenu size={30} fill="white" />
-          </NavLink>
-        </div>
-        <Tooltip anchorSelect="#clickable" clickable>
-          عرض الفهرس
-        </Tooltip>
+    <>
+       <Navbar className="shadow-sm sticky-top bg-white w-100 " expand="md">
+      <Container>
+       
+
+        <Navbar.Collapse id="basic-navbar-nav">
+        <span className="mx-2 font-light text-gray-700">|</span>
+
+<button type="button" className="btn btn-secondary btn-lg active">
+  <span className="mr-2">My Account</span>
+</button>
+          <Nav className="ml-auto text-sm text-gray-700">
+            <Nav.Link href="#" className="mx-2 hover-text-primary-500 hover-font-medium">
+              Home
+            </Nav.Link>
+            <Nav.Link href="#" className="mx-2 hover-text-primary-500 hover-font-medium">
+              About
+            </Nav.Link>
+            <Nav.Link href="#" className="mx-2 hover-text-primary-500 hover-font-medium">
+              Support
+            </Nav.Link>
+          </Nav>
+
+         
+        </Navbar.Collapse>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
+        <Navbar.Brand href="#" className="d-flex align-items-center">
+          <span className="text-gray-700">Quran Reminder</span>
+          <img src="/quranImg.png" width="30" height="30" className="mr-2" alt="logo" />
+        </Navbar.Brand>
+
       </Container>
-    </div>
+    </Navbar>
+    </>
+ 
   );
 };
 
