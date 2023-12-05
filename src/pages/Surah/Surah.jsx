@@ -11,6 +11,8 @@ import "react-h5-audio-player/lib/styles.css";
 
 const Surah = () => {
   const [tafseer , setTafseer] = useState("")
+  const [tafseerEn , setTafseerEn] = useState("")
+
   const [audio, setAudio] = useState("");
   const [translation, setTranslation] = useState("");
   const [show, setShow] = useState(false);
@@ -22,11 +24,17 @@ const Surah = () => {
   console.log(surahNumber)
   const [ar, setAr] = useState("");
   const [en, setEn] = useState("");
+  const [revelationPlace, setRevelationPlace] = useState("");
+  const [versesCount, setVersesCount] = useState("");
+
   useEffect(() => {
     if (surahs.length > 0) {
       const surah = surahs.find((surah) => surah.number == surahNumber);
       setAr(surah.arabicName);
       setEn(surah.englishName);
+      setRevelationPlace(surah.revelation_place);
+      setVersesCount(surah.verses_count);
+
     }
   }, [surahs, surahNumber]);
   useEffect(() => {
@@ -72,9 +80,19 @@ const Surah = () => {
         method: "GET",
       }
     );
+    const ayatEn = await fetch(
+      `https://quranenc.com/api/v1/translation/aya/english_saheeh/${surahNumber}/${ayahNum}`,
+      {
+        method: "GET",
+      }
+    );
     const result = await ayat.json();
-    console.log(result)
-    setTafseer(result.result.translation)
+    const result2 = await ayatEn.json();
+
+    console.log(result2)
+    setTafseer(result.result.translation);
+    setTafseerEn(result2.result.footnotes);
+
   };
   console.log(show);
   return (
@@ -85,8 +103,9 @@ const Surah = () => {
       className={style.Surah}
     >
       <div className={style.names}>
-        <h3>سورة {ar}</h3>
-        <h3>{en}</h3>
+        <h3 className={style.titre}>سورة {ar} -{en}</h3>
+        <div className={style.line}></div>
+        <p>{revelationPlace} - {versesCount} Ayah</p>
       </div>
       {ayahs.length > 0 ? (
         ayahs.map((ayah) => {
@@ -118,7 +137,7 @@ const Surah = () => {
         <Modal show={show} setShow={setShow}>
           <Accordion style={{ width: "100%" }}>
             <Accordion.Item eventKey="0">
-              <Accordion.Header>الإستماع الى الأية &nbsp;</Accordion.Header>
+              <Accordion.Header>Listen to the verse - الإستماع الى الأية &nbsp;</Accordion.Header>
               <Accordion.Body>
                 <AudioPlayer
                 muted={true}
@@ -134,9 +153,11 @@ const Surah = () => {
               </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="1">
-              <Accordion.Header>عرض التفسير &nbsp;</Accordion.Header>
+              <Accordion.Header>View explanation - عرض التفسير &nbsp;</Accordion.Header>
               <Accordion.Body>
                 <p className="text-end">{tafseer}</p>
+                <div className={style.line}></div>
+                <p className="text-start">{tafseerEn}</p>
               </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="2">

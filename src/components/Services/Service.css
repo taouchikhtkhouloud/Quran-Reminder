@@ -1,0 +1,107 @@
+.section-service {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 30px;
+  }
+  
+  .service-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #333;
+    font-size: 1.825rem;
+    margin: 1.3rem 0;
+  }
+  
+  .section-lead {
+    max-width: 600px;
+    margin: 1rem auto 1.5rem;
+  }
+  
+  .service a {
+    color: #bb855b;
+    display: block;
+  }
+  .service p{
+    color: black;
+  }
+ 
+  
+  .services-grid {
+    display: flex;
+    align-items: center;
+  }
+  
+  .service {
+    background: #faf2f2;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 4px;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    transition: all 0.3s ease;
+  }
+  
+  .service:hover {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
+  }
+  
+  .service i {
+    font-size: 3.45rem;
+    margin: 1rem 0;
+  }
+  
+  .service1 i,
+  .service1 h4,
+  .service1 .cta {
+    color: #ca9142;
+  }
+  
+  .service1:hover {
+    border: 2px solid #ca9142;
+  }
+  
+  .service2 i,
+  .service2 h4,
+  .service2 .cta {
+    color: #98812f;
+  }
+  
+  .service2:hover {
+    border: 2px solid #98812f;
+  }
+  
+  .service3 i,
+  .service3 h4,
+  .service3 .cta {
+    color: #ca8f42;
+  }
+  
+  .service3:hover {
+    border: 2px solid #ca8f42;
+  }
+  
+  .service .cta span {
+    font-size: 0.6rem;
+  }
+  
+  .service > * {
+    flex: 1 1 100%;
+  }
+  
+  .service .cta {
+    align-self: flex-end;
+  }
+  
+  @media all and (max-width:900px) {
+    .services-grid {
+      display: -webkit-box;
+      display: flex;
+      flex-direction: column;
+    }
+  }

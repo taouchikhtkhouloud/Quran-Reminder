@@ -21,7 +21,7 @@
   gap: 10px;
   flex-direction: row-reverse;
   & p {
-    color: white;
+    color: #000;
     font-size: 25px;
     font-weight: bold;
   }

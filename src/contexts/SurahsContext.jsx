@@ -13,6 +13,8 @@ const SurahsProvider = ({ children }) => {
           number: chapter.id,
           arabicName: chapter.name_arabic,
           englishName: chapter.name_simple,
+          verses_count: chapter.verses_count,
+          revelation_place: chapter.revelation_place,
         }));
         setSurahs(surahs);
       });

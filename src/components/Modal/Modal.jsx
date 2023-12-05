@@ -45,7 +45,6 @@ const Modal = ({ show, setShow, children }) => {
           >
             <Container>
               <div className={`${style.content} px-lg-5`}>
-                <h4 className="mb-4 text-center"> قم باختيار ما تريد عرضه</h4>
                 {children}
               </div>
             </Container>

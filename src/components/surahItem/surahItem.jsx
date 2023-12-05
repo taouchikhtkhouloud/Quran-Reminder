@@ -5,7 +5,9 @@ const SurahItem = ({arabicName : ar , englishName : en , number : num}) => {
   return <Link to={`/${num}`} className={style.surahItem}>
     <div className={style.surahInner}>
       <div className={style.surahName}>
+        <div className={style.surahNumber}>{num}</div>
         <div className={style.arabicName}>{ar}</div>
+        <div className={style.line}></div>
         <div className={style.englishName}>{en}</div>
       </div>
     </div>
