@@ -13,7 +13,8 @@ exports.handler = async (event, context) => {
     let response;
     switch(true) {
         case event.httpMethod === 'GET' && event.path === versesPath:
-            response = await getVerses();
+            const email = event.queryStringParameters.email;
+            response = await getVerses(email);
             break;
         case event.httpMethod === 'GET' && event.path === versePath:
             const Name = event.queryStringParameters.Name;
@@ -26,16 +27,32 @@ exports.handler = async (event, context) => {
     return response;
 };
 
-async function getVerses() {
+async function getVerses(email) {
     const params = {
         TableName: userTable
     }
-    return await dynamodb.scan(params).promise().then(response => {
-        return buildResponse(200, response.Items);
-    }, error => {
+
+    try {
+        const scanResult = await dynamodb.scan(params).promise();
+
+        // Check if there are items in the result
+        if (scanResult.Items.length === 0) {
+            return buildResponse(200, []); // Return an empty array if there are no items
+        }
+
+        // Filter out verses based on subscriber email
+        const filteredVerses = scanResult.Items.filter(verse => {
+            // Assuming "Subscribers" is a set column in your DynamoDB table
+            return verse.Subscribers && verse.Subscribers.values.includes(email);
+        });
+
+        return buildResponse(200, filteredVerses);
+    } catch (error) {
         console.error('There is an error getting verses: ', error);
-    })
+        return buildResponse(500, 'Internal Server Error');
+    }
 }
+
 
 async function getVerse(Name, Ayat) {
     const params = {

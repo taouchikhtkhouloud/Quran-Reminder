@@ -14,6 +14,7 @@ exports.handler = async (event, context) => {
     };
 
     try {
+        
         const s3Object = await s3.getObject(params).promise();
         const csvContent = s3Object.Body.toString('utf-8');
 
@@ -25,11 +26,8 @@ exports.handler = async (event, context) => {
         const randomLineIndex = Math.floor(Math.random() * (rows.length - 1)) + 1; // Exclude the header
         const randomLine = rows[randomLineIndex].split(',');
 
-        // Create an object with column names as keys and corresponding values
-        const randomLineObject = {};
-        header.forEach((columnName, index) => {
-            randomLineObject[columnName] = randomLine[index];
-        });
+        const records = await parseCSV(csvContent);
+        const randomLineObject = pickRandomRecord(records);
 
         // Convert randomLineObject to an HTML page
         const htmlContent = `<html><body><pre>${JSON.stringify(randomLineObject, null, 2)}</pre></body></html>`;
@@ -44,6 +42,8 @@ exports.handler = async (event, context) => {
             Subject: 'Your Daily Quran Reminder',
             TopicArn: TOPIC_ARN,
         };
+        const subscribers = await getSNSSubscribers(TOPIC_ARN);
+        
 
         await sns.publish(snsParams).promise();
         try {
@@ -59,7 +59,8 @@ exports.handler = async (event, context) => {
                         Translation2: { S: randomLineObject.Translation2 || '---' },
                         Translation3: { S: randomLineObject.Translation3 || '---' },
                         Tafaseer1: { S: randomLineObject.Tafaseer1 || '---' },
-                        Tafaseer2: { S: randomLineObject.Tafaseer2 || '---' }
+                        Tafaseer2: { S: randomLineObject.Tafaseer2 || '---' },
+                        Subscribers: { SS: subscribers || '---' }
                     
                 },
             }).promise();
@@ -82,3 +83,36 @@ exports.handler = async (event, context) => {
         };
     }
 };
+async function getSNSSubscribers(topicArn) {
+    const params = {
+      TopicArn: topicArn
+    };
+  
+    const response = await sns.listSubscriptionsByTopic(params).promise();
+    const confirmedSubscribers = response.Subscriptions
+      .filter(sub => sub.SubscriptionArn !== 'PendingConfirmation') // Filters out unconfirmed subscriptions
+      .map(sub => sub.Endpoint); // Assuming you want to store the endpoint (e.g., email address)
+  
+    return confirmedSubscribers;
+  }
+
+  function parseCSV(csvContent) {
+    return new Promise((resolve, reject) => {
+        const results = [];
+        const stream = require('stream');
+        const csvStream = stream.Readable.from(csvContent);
+        csvStream
+            .pipe(csv())
+            .on('data', (data) => results.push(data))
+            .on('end', () => {
+                resolve(results);
+            })
+            .on('error', (error) => reject(error));
+    });
+}
+
+function pickRandomRecord(records) {
+    const randomIndex = Math.floor(Math.random() * records.length);
+    return records[randomIndex];
+}
+  

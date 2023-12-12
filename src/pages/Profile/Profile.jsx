@@ -58,9 +58,10 @@ function Profile() {
           'x-api-key': 'fdh7do8qpa9z2q8ZOxYd05qPDWnHeoN82nbzc7Nu'
         }
       }
-      axios.get(versesApi, requestConfig).then(response => {
+      axios.get(`https://4kk1d643zc.execute-api.us-east-1.amazonaws.com/prod/verses?email=${user.email}`, requestConfig).then(response => {
         setVerses(response.data);
         setSize(response.data.length);
+        console.log("size",size);
         console.log(response.data);
       } ).catch(error => {
         console.log(error);

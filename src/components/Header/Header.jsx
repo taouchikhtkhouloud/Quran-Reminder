@@ -15,7 +15,7 @@ Add Your Daily Routine</h3>
             <p style={{color:'black'}}>The quran is the central religious text of islam. Muslim's believe the Quran is the book of divine guidance and direction for mankind</p>
             <div className="d-flex ">
 
-            <Button className='m-2' variant="secondary" href='/surahs'>Subscribe </Button>
+            <Button className='m-2' variant="secondary" href='/register'>Subscribe </Button>
             <Button className='m-2' variant="outline-secondary" href='/surahs'>Read Quran</Button>
             </div>
         </Col>

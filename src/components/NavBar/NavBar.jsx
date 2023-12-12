@@ -45,9 +45,7 @@ const NavBar = () => {
           }
           
           <Nav className="ml-auto text-sm text-gray-700">
-          <Nav.Link href="#" className="mx-2 hover-text-primary-500 hover-font-medium">
-              Contact Us
-            </Nav.Link>
+          
           <Nav.Link href="/surahs" className="mx-2 hover-text-primary-500 hover-font-medium">
               Surahs
             </Nav.Link>
